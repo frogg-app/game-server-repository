@@ -2584,45 +2584,63 @@
     "id": "astroneer",
     "name": "Astroneer",
     "description": "Colorful space exploration adventure set during a 25th-century gold rush where players explore and reshape procedural planets.",
-    "image": "ich777/steamcmd",
+    "image": "barumel/docker-astroneer-server",
     "steamAppId": 361420,
     "category": "sandbox",
     "defaultPort": 8777,
     "defaultPortProtocol": "udp",
-    "additionalPorts": [],
+    "additionalPorts": [
+      {
+        "port": 8777,
+        "protocol": "tcp",
+        "description": "Game port (TCP, alongside the primary UDP port)"
+      }
+    ],
     "defaultEnvVars": [
       {
-        "key": "GAME_ID",
-        "value": "728470",
-        "description": "Steam app ID for Astroneer dedicated server",
-        "required": false
+        "key": "ASTRO_SERVER_NAME",
+        "value": "My Astroneer Server",
+        "description": "Server display name",
+        "required": true
       },
       {
-        "key": "GAME_PARAMS",
+        "key": "ASTRO_SERVER_OWNER_NAME",
         "value": "",
-        "description": "Additional startup parameters",
-        "required": false
+        "description": "Steam username of the server owner (granted in-game admin)",
+        "required": true
       },
       {
-        "key": "USERNAME",
+        "key": "ASTRO_SERVER_PASSWORD",
         "value": "",
-        "description": "Steam username (blank for anonymous)",
+        "description": "Password required to join the server",
+        "required": true
+      },
+      {
+        "key": "ASTRO_SERVER_PORT",
+        "value": "8777",
+        "description": "Game port used inside the container (must match the published port)",
         "required": false
       },
       {
-        "key": "PASSWRD",
+        "key": "ASTRO_SERVER_PUBLIC_IP",
         "value": "",
-        "description": "Steam password (blank for anonymous)",
+        "description": "Public IPv4 address to advertise; auto-detected if left blank",
         "required": false
       },
       {
-        "key": "VALIDATE",
+        "key": "ASTRO_SERVER_DOMAIN_NAME",
+        "value": "",
+        "description": "Domain name for IP resolution (informational only; clients still connect via IP)",
+        "required": false
+      },
+      {
+        "key": "ASTRO_SERVER_DISABLE_ENCRYPTION",
         "value": "false",
-        "description": "Validate game files on start",
+        "description": "Disable connection encryption",
         "required": false
       }
     ],
-    "volumePath": "/serverdata/serverfiles",
+    "volumePath": "/astroneer",
     "tags": [
       "multiplayer",
       "co-op",
@@ -2631,7 +2649,7 @@
       "sandbox"
     ],
     "minRam": "4G",
-    "documentation": "https://hub.docker.com/r/ich777/steamcmd",
+    "documentation": "https://github.com/barumel/docker-astroneer-server",
     "splashImage": "https://cdn.akamai.steamstatic.com/steam/apps/361420/header.jpg",
     "ports": [
       {
@@ -2639,6 +2657,11 @@
         "protocol": "udp",
         "description": "Game port",
         "primary": true
+      },
+      {
+        "containerPort": 8777,
+        "protocol": "tcp",
+        "description": "Game port (TCP, alongside the primary UDP port)"
       }
     ]
   },
